@@ -65,6 +65,10 @@ function parseCMD(cmd, usr)
         nuke()
     elseif cmd_lower == "invsee" then
         invsee(sen, cmd[2])
+    elseif cmd_lower == "test" then
+        print(cmd[2])
+        print(cmd[3])
+        print(cmd[4])
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
