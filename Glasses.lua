@@ -3,7 +3,8 @@
 -- 2.Turt Control
 -- 3.Ender requester.
 glass = peripheral.wrap("right")
-sen = peripheral.wrap("top")
+sensor = peripheral.wrap("top")
+controller = peripheral.wrap("left")
 maxLines = 7
 getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
@@ -65,10 +66,8 @@ function parseCMD(cmd, usr)
         nuke()
     elseif cmd_lower == "invsee" then
         invsee(sen, cmd[2])
-    elseif cmd_lower == "test" then
-        print(cmd[2])
-        print(cmd[3])
-        print(cmd[4])
+    elseif cmd_lower == "request" then
+        me.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
