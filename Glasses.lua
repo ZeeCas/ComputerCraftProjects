@@ -65,9 +65,9 @@ function parseCMD(cmd, usr)
     elseif cmd_lower == "nuke" then
         nuke()
     elseif cmd_lower == "invsee" then
-        invsee(sen, cmd[2])
+        invsee(sensor, cmd[2])
     elseif cmd_lower == "request" then
-        me.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
+        controller.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
