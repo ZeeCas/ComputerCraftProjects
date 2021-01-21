@@ -71,7 +71,11 @@ function parseCMD(cmd, usr)
     elseif cmd_lower == "auth" then 
         table.insert(authedusers,cmd[2])
     elseif cmd_lower == "deauth" then
-        
+        local index={}
+        for k,v in pairs(authedusers) do
+            index[v]=k
+        end
+        table.remove(authedusers,print(index[cmd[2]]))
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
