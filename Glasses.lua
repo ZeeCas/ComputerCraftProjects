@@ -68,6 +68,10 @@ function parseCMD(cmd, usr)
         invsee(sensor, cmd[2])
     elseif cmd_lower == "request" then
         controller.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
+    elseif cmd_lower == "auth" then 
+        table.insert(authedusers,cmd[2])
+    elseif cmd_lower == "deauth" then
+        
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
