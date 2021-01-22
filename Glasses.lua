@@ -64,7 +64,9 @@ function parseCMD(cmd, usr)
         sleep(2)
         surface.clear()
     elseif cmd_lower == "nuke" then
-        nuke()
+        for i=1,#glass.getUsers() do
+            nuke(glass.getUsers()[i])
+        end
     elseif cmd_lower == "invsee" then
         invsee(sensor, cmd[2], user)
         sleep(3)
@@ -241,8 +243,6 @@ function nuke(user)
     surface.clear()
     getfenv(("").gsub).glass_chat = {}
     surrface.clear()
-    shell.run("reboot")
-    surface.clear()
 end
 --
 function drawItem(x, y, id, dmg, usr)
