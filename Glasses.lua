@@ -9,6 +9,7 @@ maxLines = 7
 getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
 authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "SoundsOfMadness", "mpfthprblmtq",""}
+staffList = {"DragonSlayer","eytixis","iim_wolf"}
 
 chatColors = {}
 chatColors["ZeeDerpMaster"] = 0x3C93C2
@@ -26,7 +27,7 @@ function startNewNew()
         authCheck()
         glass.clear()
         height = (maxLines * 10)
-        glass.addBox(0, 20, 335, height, 0x000000, 0.5)
+        glass.addBox(0, 10, 335, height, 0x000000, 0.5)
         for i = 1, #messages do
             pos = 10 + (i * 10)
             message = messages[i]
@@ -95,11 +96,19 @@ function parseCMD(cmd, usr)
     end
 end
 --
+function getPos(player,usr)
+    local surface = glass.getUserSurface(usr)
+    local posX = glass.getPlayerData(player).pos.x
+    local posY = glass.getPlayerData(player).pos.y
+
+    surface.addBox()
+end
+--
 function onlineList()
     if #glass.getUsers() > 0 then
-        usrNum = #glass.getUsers()
-        usrNam = glass.getUsers()
-        glass.addBox(336, 20, 91, 60, 0x000000, 0.5)
+        local usrNum = #glass.getUsers()
+        local usrNam = glass.getUsers()
+        glass.addBox(336, 10, 91, 60, 0x000000, 0.5)
         for i = 1, usrNum do
             h = 10 + (i * 10)
             glass.addText(337, h, usrNam[i], chatColors[getName(usrNam[i])])
@@ -162,7 +171,7 @@ function table.contains(tab, ele)
 end
 --
 function split(str)
-    words = {}
+    local words = {}
     for word in str:gmatch("%S+") do
         words[#words + 1] = word
     end
@@ -189,7 +198,7 @@ function nuke()
 end
 --
 function drawItem(x, y, id, dmg, usr)
-    surface = glass.getUserSurface(usr)
+    local surface = glass.getUserSurface(usr)
     local margin = 20
     local bg = 0x404040
     local fg = 0x9e9e9e
