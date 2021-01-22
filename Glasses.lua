@@ -8,7 +8,7 @@ controller = peripheral.wrap("left")
 maxLines = 7
 getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
-authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "SoundsOfMadness", "mpfthprblmtq",""}
+authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
 staffList = {"DragonSlayer","eytixis","iim_wolf"}
 
 chatColors = {}
@@ -113,7 +113,7 @@ end
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addBox(336,70,91,10)
+    surface.addBox(336,70,91,10, 0x000000, 0.5)
     surface.addText(336,70,text)
 end
 --
