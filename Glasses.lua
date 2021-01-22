@@ -97,6 +97,7 @@ function parseCMD(cmd, usr)
         end
     elseif cmd_lower == "track" then
         table.insert(trackedPlayers,player)
+        -- track(user)
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -123,21 +124,21 @@ function getPos(player,usr)
     glassCMDOutput(usr,player.." is at "..posX.." "..posY.." "..posZ)
 end
 --
-function track(player,usr)
-    local xOff = 4877
-    local yOff = 13
-    local zOff = 3574
-    local pos = 100 + (10 * #trackedPlayers)    
-    local surface = glass.getUserSurface(usr)
-    if #trackedPlayers ~= 0 then
-        for i=1,#trackedPlayers do
-            local posX = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.x + xOff)
-            local posY = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.y + yOff)
-            local posZ = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.z + zOff)
-            surface.addText(0,pos,trackedPlayers[i].." is at "..posX..","..posY..","..posZ)
-        end
-    end
-end
+-- function track(usr)
+--     local xOff = 4877
+--     local yOff = 13
+--     local zOff = 3574
+--     local pos = 100 + (10 * #trackedPlayers)    
+--     local surface = glass.getUserSurface(usr)
+--     if #trackedPlayers ~= 0 then
+--         for i=1,#trackedPlayers do
+--             local posX = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.x + xOff)
+--             local posY = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.y + yOff)
+--             local posZ = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.z + zOff)
+--             surface.addText(0,pos,trackedPlayers[i].." is at "..posX..","..posY..","..posZ)
+--         end
+--     end
+-- end
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
