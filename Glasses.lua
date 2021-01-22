@@ -80,6 +80,8 @@ function parseCMD(cmd, usr)
             index[v]=k
         end
         table.remove(authedusers,print(index[cmd[2]]))
+    elseif cmd_lower == "whereis" then
+        getPos(cmd[2],user)
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -97,11 +99,21 @@ function parseCMD(cmd, usr)
 end
 --
 function getPos(player,usr)
+    local xOff = 4877
+    local yOff = 13
+    local zOff = 3574
+    local posX = math.floor(glass.getPlayerData(player).pos.x + xOff)
+    local posY = math.floor(glass.getPlayerData(player).pos.y + yOff)
+    local posZ = math.floor(glass.getPlayerData(player).pos.z + zOff)
+    glassCMDOutput(usr,player.." is at "..posX.." "..posY.." "..posZ)
+end
+--
+function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    local posX = glass.getPlayerData(player).pos.x
-    local posY = glass.getPlayerData(player).pos.y
-
-    surface.addBox()
+    surface.addbox(336,70,91,10)
+    surface.addText(336,70,text)
+    sleep(5)
+    surface.clear()
 end
 --
 function onlineList()
