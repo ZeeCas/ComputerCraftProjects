@@ -27,7 +27,7 @@ function startNewNew()
         authCheck()
         glass.clear()
         height = (maxLines * 10)
-        glass.addBox(0, 10, 335, height, 0x000000, 0.5)
+        glass.addBox(0, 20, 335, height, 0x000000, 0.5)
         for i = 1, #messages do
             pos = 10 + (i * 10)
             message = messages[i]
@@ -81,7 +81,10 @@ function parseCMD(cmd, usr)
         end
         table.remove(authedusers,print(index[cmd[2]]))
     elseif cmd_lower == "whereis" then
+        local surface = glass.getUserSurface(user)
         getPos(cmd[2],user)
+        sleep(3)
+        surface.clear()
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -110,17 +113,15 @@ end
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addbox(336,70,91,10)
+    surface.addBox(336,70,91,10)
     surface.addText(336,70,text)
-    sleep(5)
-    surface.clear()
 end
 --
 function onlineList()
     if #glass.getUsers() > 0 then
         local usrNum = #glass.getUsers()
         local usrNam = glass.getUsers()
-        glass.addBox(336, 10, 91, 60, 0x000000, 0.5)
+        glass.addBox(336, 20, 91, 60, 0x000000, 0.5)
         for i = 1, usrNum do
             h = 10 + (i * 10)
             glass.addText(337, h, usrNam[i], chatColors[getName(usrNam[i])])
