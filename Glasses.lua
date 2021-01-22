@@ -84,6 +84,8 @@ function parseCMD(cmd, usr)
         local surface = glass.getUserSurface(user)
         if table.contains(staffList, cmd[2]) then 
             glassCMDOutput(user,"You cannot track that player")
+            sleep(2)
+            surface.clear()
         else
             getPos(cmd[2],user)
             sleep(3)
@@ -117,7 +119,7 @@ end
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addBox(336,80,190,10, 0x000000, 0.5)
+    surface.addBox(336,80,surface.getStringWidth(text),10, 0x000000, 0.5)
     surface.addText(336,80,text)
 end
 --
