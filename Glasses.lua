@@ -96,8 +96,7 @@ function parseCMD(cmd, usr)
             surface.clear()
         end
     elseif cmd_lower == "track" then
-        table.insert(trackedPlayers,player)
-        -- track(user)
+        track(cmd[2],user)
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -124,7 +123,7 @@ function getPos(player,usr)
     glassCMDOutput(usr,player.." is at "..posX.." "..posY.." "..posZ)
 end
 --
-function track(usr)
+function track(player,usr)
     local xOff = 4877
     local yOff = 13
     local zOff = 3574
