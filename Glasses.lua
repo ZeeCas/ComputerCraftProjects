@@ -82,9 +82,13 @@ function parseCMD(cmd, usr)
         table.remove(authedusers,print(index[cmd[2]]))
     elseif cmd_lower == "whereis" then
         local surface = glass.getUserSurface(user)
-        getPos(cmd[2],user)
-        sleep(3)
-        surface.clear()
+        if table.contains(staffList, cmd[2]) then 
+            glassCMDOutput(user,"You cannot track that player")
+        else
+            getPos(cmd[2],user)
+            sleep(3)
+            surface.clear()
+        end
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -113,8 +117,8 @@ end
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addBox(336,70,91,10, 0x000000, 0.5)
-    surface.addText(336,70,text)
+    surface.addBox(336,80,190,10, 0x000000, 0.5)
+    surface.addText(336,80,text)
 end
 --
 function onlineList()
