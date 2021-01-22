@@ -9,7 +9,7 @@ maxLines = 7
 getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
 authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
-staffList = {"DragonSlayer","eytixis","iim_wolf"}
+staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 
 chatColors = {}
 chatColors["ZeeDerpMaster"] = 0x3C93C2
@@ -52,6 +52,7 @@ function listener()
 end
 --
 function parseCMD(cmd, usr)
+    local surface = glass.getUserSurface(user)
     local cmd_lower = cmd[1]:lower()
     if cmd_lower == "maxlines" then
         for i = 1, tonumber(maxLines) do
@@ -63,25 +64,35 @@ function parseCMD(cmd, usr)
         end
     elseif cmd_lower == "chatcolor" then
         chatColors[usr] = loadstring("return " .. cmd[2])()
+        glassCMDOutput(user,"Chat color is now "..cmd[2])
+        sleep(2)
+        surface.clear()
     elseif cmd_lower == "nuke" then
         nuke()
     elseif cmd_lower == "invsee" then
-        local surface = glass.getUserSurface(user)
         invsee(sensor, cmd[2], user)
         sleep(3)
         surface.clear()
     elseif cmd_lower == "request" then
         controller.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
+        glassCMDOutput(user,"Requested "..cmd[4].." of "..cmd[2])
+        sleep(2)
+        surface.clear()
     elseif cmd_lower == "auth" then 
         table.insert(authedusers,cmd[2])
+        glassCMDOutput(user,"Added "..cmd[2].." to authorized users.")
+        sleep(2)
+        surface.clear()
     elseif cmd_lower == "deauth" then
         local index={}
         for k,v in pairs(authedusers) do
             index[v]=k
         end
         table.remove(authedusers,print(index[cmd[2]]))
+        glassCMDOutput(user,"Removed "..cmd[2].." from authorized users.")
+        sleep(2)
+        surface.clear()
     elseif cmd_lower == "whereis" then
-        local surface = glass.getUserSurface(user)
         if table.contains(staffList, cmd[2]) then 
             glassCMDOutput(user,"You cannot track that player")
             sleep(2)
@@ -119,7 +130,7 @@ end
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addBox(336,80,surface.getStringWidth(text),10, 0x000000, 0.5)
+    surface.addBox(336,80,glass.getStringWidth(text),10, 0x000000, 0.5)
     surface.addText(336,80,text)
 end
 --
