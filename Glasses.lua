@@ -102,9 +102,9 @@ function getPos(player,usr)
     local xOff = 4877
     local yOff = 13
     local zOff = 3574
-    local posX = math.floor(sensor.getPlayerData(player).pos.x + xOff)
-    local posY = math.floor(sensor.getPlayerData(player).pos.y + yOff)
-    local posZ = math.floor(sensor.getPlayerData(player).pos.z + zOff)
+    local posX = math.floor(sensor.getPlayerData(player).position.x + xOff)
+    local posY = math.floor(sensor.getPlayerData(player).position.y + yOff)
+    local posZ = math.floor(sensor.getPlayerData(player).position.z + zOff)
     glassCMDOutput(usr,player.." is at "..posX.." "..posY.." "..posZ)
 end
 --
