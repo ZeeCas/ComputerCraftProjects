@@ -1,7 +1,7 @@
 -- -- TODO:
--- 1.Clean-up 
+-- 1.Clean-up -- Meh
 -- 2.Turt Control
--- 3.Ender requester.
+-- 3.Ender requester. -- Done 
 glass = peripheral.wrap("right")
 sensor = peripheral.wrap("top")
 controller = peripheral.wrap("left")
@@ -65,7 +65,7 @@ function parseCMD(cmd, usr)
     elseif cmd_lower == "nuke" then
         nuke()
     elseif cmd_lower == "invsee" then
-        invsee(sensor, cmd[2])
+        invsee(sensor, cmd[2], user)
     elseif cmd_lower == "request" then
         controller.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
     elseif cmd_lower == "auth" then 
@@ -118,7 +118,7 @@ function authCheck()
     end
 end
 --
-function invsee(sen, player)
+function invsee(sen, player, usr)
     local inventory = sen.getPlayerData(player).inventory
     if not inventory then
         error("Player does not exist/is not online")
@@ -126,7 +126,7 @@ function invsee(sen, player)
     row = 5
     column = 1
     for i = 10, 36 do
-        drawItem(row, column, inventory[i].id, inventory[i].dmg)
+        drawItem(row, column, inventory[i].id, inventory[i].dmg, usr)
         if row == 9 then
             row = 1
             column = column + 1
@@ -137,13 +137,13 @@ function invsee(sen, player)
     row = 8
     column = 1
     for i = 1, 9 do
-        drawItem(row, column, inventory[i].id, inventory[i].dmg)
+        drawItem(row, column, inventory[i].id, inventory[i].dmg, usr)
         row = row + 1
     end
     row = 1
     column = 1
     for i = 37, 40 do
-        drawItem(row, column, inventory[i].id, inventory[i].dmg)
+        drawItem(row, column, inventory[i].id, inventory[i].dmg, usr)
         column = column + 1
     end
     sleep(2)
@@ -185,13 +185,14 @@ function nuke()
     shell.run("reboot")
 end
 --
-function drawItem(x, y, id, dmg)
+function drawItem(x, y, id, dmg, usr)
+    surface = glass.getUserSurface(usr)
     local margin = 20
     local bg = 0x404040
     local fg = 0x9e9e9e
-    glass.addBox((x * margin) - 1, (y * margin) - 1, margin, margin, bg, 1)
-    glass.addBox((x * margin) - 1, (y * margin) - 1, margin - 2, margin - 2, bg, 1)
-    glass.addIcon(x * margin, y * margin, id, dmg)
+    surface.addBox((x * margin) - 1, (y * margin) - 1, margin, margin, bg, 1)
+    surface.addBox((x * margin) - 1, (y * margin) - 1, margin - 2, margin - 2, bg, 1)
+    surface.addIcon(x * margin, y * margin, id, dmg)
 end
 --
 parallel.waitForAny(listener, startNewNew)
