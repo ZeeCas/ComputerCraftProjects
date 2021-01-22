@@ -23,9 +23,9 @@ for i = 1, maxLines do
     table.insert(messages, "$$$$")
 end
 --
-function startNewNew()
+function main()
     while true do
-        for _,user in (glass.getUsers()) do
+        for _,user in pairs(glass.getUsers()) do
             local surface = glass.getUserSurface(user)
             authCheck()
             surface.clear()
@@ -168,7 +168,7 @@ function authCheck()
             for i, v in pairs(currentUsers) do
                 print(v)
             end
-            nuke()
+            nuke(currentUsers[i])
         else
             print''
         end
@@ -236,12 +236,13 @@ function getName(message)
     return name
 end
 --
-function nuke()
-    glass.clear()
+function nuke(user)
+    local surface = glass.getUserSurface(user)
+    surface.clear()
     getfenv(("").gsub).glass_chat = {}
-    glass.clear()
+    surrface.clear()
     shell.run("reboot")
-    glass.clear()
+    surface.clear()
 end
 --
 function drawItem(x, y, id, dmg, usr)
@@ -254,5 +255,5 @@ function drawItem(x, y, id, dmg, usr)
     surface.addIcon(x * margin, y * margin, id, dmg)
 end
 --
-parallel.waitForAny(listener, startNewNew)
+parallel.waitForAny(listener, main)
 --
