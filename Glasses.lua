@@ -10,6 +10,7 @@ getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
 authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
+trackedPlayers = {}
 
 chatColors = {}
 chatColors["ZeeDerpMaster"] = 0x3C93C2
@@ -24,18 +25,21 @@ end
 --
 function startNewNew()
     while true do
-        authCheck()
-        glass.clear()
-        height = (maxLines * 10)
-        glass.addBox(0, 20, 335, height, 0x000000, 0.5)
-        for i = 1, #messages do
-            pos = 10 + (i * 10)
-            message = messages[i]
-            color = chatColors[getName(message)]
-            glass.addText(5, pos, message, color)
+        for _,user in (glass.getUsers()) do
+            local surface = glass.getUserSurface(user)
+            authCheck()
+            surface.clear()
+            height = (maxLines * 10)
+            surface.addBox(0, 20, 335, height, 0x000000, 0.5)
+                for i = 1, #messages do
+                    pos = 10 + (i * 10)
+                    message = messages[i]
+                    color = chatColors[getName(message)]
+                    surface.addText(5, pos, message, color)
+                end
+            onlineList(user)
+            sleep(0.1)
         end
-        onlineList()
-        sleep(0.1)
     end
 end
 -----
@@ -54,15 +58,7 @@ end
 function parseCMD(cmd, usr)
     local surface = glass.getUserSurface(user)
     local cmd_lower = cmd[1]:lower()
-    if cmd_lower == "maxlines" then
-        for i = 1, tonumber(maxLines) do
-            table.remove(messages, 1)
-        end
-        maxLines = tonumber(cmd[2])
-        for i = 1, tonumber(maxLines) do
-            table.insert(messages, "$$$$")
-        end
-    elseif cmd_lower == "chatcolor" then
+    if cmd_lower == "chatcolor" then
         chatColors[usr] = loadstring("return " .. cmd[2])()
         glassCMDOutput(user,"Chat color is now "..cmd[2])
         sleep(2)
@@ -102,6 +98,8 @@ function parseCMD(cmd, usr)
             sleep(3)
             surface.clear()
         end
+    elseif cmd_lower == "track" then
+        table.insert(trackedPlayers,player)
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -128,20 +126,37 @@ function getPos(player,usr)
     glassCMDOutput(usr,player.." is at "..posX.." "..posY.." "..posZ)
 end
 --
+function track(player,usr)
+    local xOff = 4877
+    local yOff = 13
+    local zOff = 3574
+    local pos = 100 + (10 * #trackedPlayers)    
+    local surface = glass.getUserSurface(usr)
+    if #trackedPlayers ~= 0 then
+        for i=1,#trackedPlayers do
+            local posX = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.x + xOff)
+            local posY = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.y + yOff)
+            local posZ = math.floor(sensor.getPlayerData(trackedPlayers[i]).position.z + zOff)
+            surface.addText(0,pos,trackedPlayers[i].." is at "..posX..","..posY..","..posZ)
+        end
+    end
+end
+--
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
     surface.addBox(336,80,glass.getStringWidth(text),10, 0x000000, 0.5)
     surface.addText(336,80,text)
 end
 --
-function onlineList()
+function onlineList(user)
+    local surface = glass.getUserSurface(user)
     if #glass.getUsers() > 0 then
         local usrNum = #glass.getUsers()
         local usrNam = glass.getUsers()
-        glass.addBox(336, 20, 91, 60, 0x000000, 0.5)
+        surface.addBox(336, 20, 91, 60, 0x000000, 0.5)
         for i = 1, usrNum do
             h = 10 + (i * 10)
-            glass.addText(337, h, usrNam[i], chatColors[getName(usrNam[i])])
+            surface.addText(337, h, usrNam[i], chatColors[getName(usrNam[i])])
         end
     end
 end
@@ -222,9 +237,11 @@ function getName(message)
 end
 --
 function nuke()
+    glass.clear()
     getfenv(("").gsub).glass_chat = {}
     glass.clear()
     shell.run("reboot")
+    glass.clear()
 end
 --
 function drawItem(x, y, id, dmg, usr)
