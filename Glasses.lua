@@ -23,23 +23,20 @@ for i = 1, maxLines do
     table.insert(messages, "$$$$")
 end
 --
-function main()
+function startNewNew()
     while true do
-        for _,user in pairs(glass.getUsers()) do
-            local surface = glass.getUserSurface(user)
-            authCheck()
-            surface.clear()
-            height = (maxLines * 10)
-            surface.addBox(0, 20, 335, height, 0x000000, 0.5)
-                for i = 1, #messages do
-                    pos = 10 + (i * 10)
-                    message = messages[i]
-                    color = chatColors[getName(message)]
-                    surface.addText(5, pos, message, color)
-                end
-            onlineList(user)
-            sleep(0.1)
+        authCheck()
+        glass.clear()
+        height = (maxLines * 10)
+        glass.addBox(0, 20, 335, height, 0x000000, 0.5)
+        for i = 1, #messages do
+            pos = 10 + (i * 10)
+            message = messages[i]
+            color = chatColors[getName(message)]
+            glass.addText(5, pos, message, color)
         end
+        onlineList()
+        sleep(0.1)
     end
 end
 -----
@@ -64,9 +61,7 @@ function parseCMD(cmd, usr)
         sleep(2)
         surface.clear()
     elseif cmd_lower == "nuke" then
-        for i=1,#glass.getUsers() do
-            nuke(glass.getUsers()[i])
-        end
+        nuke()
     elseif cmd_lower == "invsee" then
         invsee(sensor, cmd[2], user)
         sleep(3)
@@ -150,15 +145,14 @@ function glassCMDOutput(usr,text)
     surface.addText(336,80,text)
 end
 --
-function onlineList(user)
-    local surface = glass.getUserSurface(user)
+function onlineList()
     if #glass.getUsers() > 0 then
         local usrNum = #glass.getUsers()
         local usrNam = glass.getUsers()
-        surface.addBox(336, 20, 91, 60, 0x000000, 0.5)
+        glass.addBox(336, 20, 91, 60, 0x000000, 0.5)
         for i = 1, usrNum do
             h = 10 + (i * 10)
-            surface.addText(337, h, usrNam[i], chatColors[getName(usrNam[i])])
+            glass.addText(337, h, usrNam[i], chatColors[getName(usrNam[i])])
         end
     end
 end
@@ -170,7 +164,7 @@ function authCheck()
             for i, v in pairs(currentUsers) do
                 print(v)
             end
-            nuke(currentUsers[i])
+            nuke()
         else
             print''
         end
@@ -238,11 +232,12 @@ function getName(message)
     return name
 end
 --
-function nuke(user)
-    local surface = glass.getUserSurface(user)
-    surface.clear()
+function nuke()
+    glass.clear()
     getfenv(("").gsub).glass_chat = {}
-    surface.clear()
+    glass.clear()
+    shell.run("reboot")
+    glass.clear()
 end
 --
 function drawItem(x, y, id, dmg, usr)
@@ -255,5 +250,5 @@ function drawItem(x, y, id, dmg, usr)
     surface.addIcon(x * margin, y * margin, id, dmg)
 end
 --
-parallel.waitForAny(listener, main)
+parallel.waitForAny(listener, startNewNew)
 --
