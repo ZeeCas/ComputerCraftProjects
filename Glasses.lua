@@ -242,7 +242,7 @@ function nuke(user)
     local surface = glass.getUserSurface(user)
     surface.clear()
     getfenv(("").gsub).glass_chat = {}
-    surrface.clear()
+    surface.clear()
 end
 --
 function drawItem(x, y, id, dmg, usr)
