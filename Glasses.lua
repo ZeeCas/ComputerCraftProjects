@@ -65,7 +65,10 @@ function parseCMD(cmd, usr)
     elseif cmd_lower == "nuke" then
         nuke()
     elseif cmd_lower == "invsee" then
+        local surface = glass.getUserSurface(user)
         invsee(sensor, cmd[2], user)
+        sleep(3)
+        surface.clear()
     elseif cmd_lower == "request" then
         controller.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
     elseif cmd_lower == "auth" then 
