@@ -98,6 +98,8 @@ function parseCMD(cmd,user)
         tracker[user] = false
     elseif cmd_lower == "help" then 
         glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, trackon, trackoff, track, and clear")
+        sleep(3)
+        surface.clear()
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -127,7 +129,7 @@ function track(user)
     local surface = glass.getUserSurface(user)
     surface.clear()
     for i,player in pairs(trackedPlayers) do 
-        pos = 80 + (i * 10)
+        pos = 90 + (i * 10)
         local posX = math.floor(sensor.getPlayerData(player).position.x + sensorX)
         local posY = math.floor(sensor.getPlayerData(player).position.y + sensorY)
         local posZ = math.floor(sensor.getPlayerData(player).position.z + sensorZ)
@@ -169,8 +171,8 @@ end
 
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addBox(336,80,glass.getStringWidth(text),10, 0x000000, 0.5)
-    surface.addText(336,80,text)
+    surface.addBox(0,80,glass.getStringWidth(text),10, 0x000000, 0.5)
+    surface.addText(0,80,text)
 end
 
 function drawItem(x, y, id, dmg, usr)
@@ -225,7 +227,7 @@ end
 function authCheck()
     currentUsers = glass.getUsers()
     for i = 1, #currentUsers do
-        if table.contains(authedusers, currentUsers[i]) == false then
+        if table.contains(authedUsers, currentUsers[i]) == false then
             for i, v in pairs(currentUsers) do
                 print(v)
             end
