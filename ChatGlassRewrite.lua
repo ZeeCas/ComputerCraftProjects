@@ -39,7 +39,6 @@ function Main(user)
         glass.addText(5, pos, message, color)
     end
     onlineList()
-    sleep(0.1)
     track(user)
 end
 
@@ -95,12 +94,12 @@ function parseCMD(cmd,user)
         if glass.getStringWidth(cmd_msg) > 325 then
             cutMsgOne = string.sub(cmd_msg, 1, 48)
             cutMsgTwo = string.sub(cmd_msg, 49, string.len(cmd_msg))
-            table.insert(messages, usr .. ": " .. cutMsgOne)
-            table.insert(messages, usr .. ": " .. cutMsgTwo)
+            table.insert(messages, user .. ": " .. cutMsgOne)
+            table.insert(messages, user .. ": " .. cutMsgTwo)
             table.remove(messages, 1)
             table.remove(messages, 1)
         else
-            table.insert(messages, usr .. ": " .. cmd_msg)
+            table.insert(messages, user .. ": " .. cmd_msg)
             table.remove(messages, 1)
         end
     end
@@ -117,6 +116,7 @@ end
 
 function track(user)
     local surface = glass.getUserSurface(user)
+    glass.clear()
     for i,player in pairs(trackedPlayers) do 
         pos = 80 + (i * 10)
         local posX = math.floor(sensor.getPlayerData(player).position.x + sensorX)
@@ -262,4 +262,5 @@ while true do
         Main(user)
         listener()
     end
+    sleep(.1)
 end
