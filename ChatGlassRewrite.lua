@@ -116,6 +116,7 @@ function track(user)
         local posY = math.floor(sensor.getPlayerData(player).position.y + sensorY)
         local posZ = math.floor(sensor.getPlayerData(player).position.z + sensorZ)
         surface.addText(0,pos,player.." is at "..posX..","..posY..","..posZ)
+    end
 end
 -- End Main Functions -- 
 
