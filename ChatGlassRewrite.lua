@@ -86,13 +86,14 @@ function parseCMD(cmd,user)
             surface.clear()
         end
     elseif cmd_lower == "track" then
-        table.insert(trackedPlayers, {user,cmd[2]})
+        table.insert(trackedPlayers, cmd[2])
     elseif cmd_lower == "clear" then
         trackedPlayers = {}
         surface.clear()
     elseif cmd_lower == "trackon" then
         tracker[user] = true
     elseif cmd_lower == "trackoff" then
+        surface.clear()
         tracker[user] = false
     else
         local cmd_msg = table.concat(cmd, " ")
