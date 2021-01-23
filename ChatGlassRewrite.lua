@@ -9,6 +9,7 @@ maxLines = 7
 authedUsers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
+tracker = {}
 
 chatColors = {}
 chatColors["ZeeDerpMaster"] = 0x3C93C2
@@ -39,7 +40,6 @@ function Main(user)
         glass.addText(5, pos, message, color)
     end
     onlineList()
-    track(user)
 end
 
 function parseCMD(cmd,user)
@@ -86,9 +86,14 @@ function parseCMD(cmd,user)
             surface.clear()
         end
     elseif cmd_lower == "track" then
-        table.insert(trackedPlayers, cmd[2])
+        table.insert(trackedPlayers, {user,cmd[2]})
     elseif cmd_lower == "clear" then
+        trackedPlayers = {}
         surface.clear()
+    elseif cmd_lower == "trackon" then
+        tracker[user] = true
+    elseif cmd_lower == "trackoff" then
+        tracker[user] = false
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
@@ -116,7 +121,7 @@ end
 
 function track(user)
     local surface = glass.getUserSurface(user)
-    glass.clear()
+    surface.clear()
     for i,player in pairs(trackedPlayers) do 
         pos = 80 + (i * 10)
         local posX = math.floor(sensor.getPlayerData(player).position.x + sensorX)
@@ -261,6 +266,9 @@ while true do
     for _,user in pairs(glass.getUsers()) do
         Main(user)
         listener()
+        if tracker[user] == true then
+            track(user)
+        end
     end
     sleep(.1)
 end
