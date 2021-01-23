@@ -238,6 +238,13 @@ function getPos(player,usr)
     glassCMDOutput(usr,player.." is at "..posX.." "..posY.." "..posZ)
 end
 
+local peripherals = {
+    mount = function (self,peripheral_name)
+      for _,p in pairs(peripheral.getNames()) do
+        if peripheral.getType(p) == peripheral_name then return peripheral.wrap(p) else return false end
+      end
+    end
+  }
 -- End Helper Functions --
 
 -- Begin Runtime -- 
