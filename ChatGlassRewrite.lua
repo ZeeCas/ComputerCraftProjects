@@ -1,6 +1,6 @@
 -- Main Declaration --
-glass = peripherals:mount('openperipheral_glassesbridge')
-sensor = peripherals:mount('openperipheral_sensor')
+glass = peripheral.wrap("right")
+sensor = peripheral.wrap("top")
 
 getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
