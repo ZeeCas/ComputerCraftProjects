@@ -43,7 +43,7 @@ function Main(user)
     track(user)
 end
 
-function parseCMD(command,user)
+function parseCMD(cmd,usr)
     local cmd_lower = cmd[1]:lower()
     if cmd_lower == "chatcolor" then
         chatColors[usr] = loadstring("return " .. cmd[2])()
