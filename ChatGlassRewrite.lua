@@ -95,6 +95,8 @@ function parseCMD(cmd,user)
     elseif cmd_lower == "trackoff" then
         surface.clear()
         tracker[user] = false
+    elseif cmd_lower == "help" then 
+        glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, trackon, trackoff, track, and clear")
     else
         local cmd_msg = table.concat(cmd, " ")
         if glass.getStringWidth(cmd_msg) > 325 then
