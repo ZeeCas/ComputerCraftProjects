@@ -129,7 +129,7 @@ function track(user)
     local surface = glass.getUserSurface(user)
     surface.clear()
     for i,player in pairs(trackedPlayers) do 
-        pos = 90 + (i * 10)
+        pos = 100 + (i * 10)
         local posX = math.floor(sensor.getPlayerData(player).position.x + sensorX)
         local posY = math.floor(sensor.getPlayerData(player).position.y + sensorY)
         local posZ = math.floor(sensor.getPlayerData(player).position.z + sensorZ)
@@ -171,8 +171,8 @@ end
 
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addBox(0,80,glass.getStringWidth(text),10, 0x000000, 0.5)
-    surface.addText(0,80,text)
+    surface.addBox(0,90,glass.getStringWidth(text),10, 0x000000, 0.5)
+    surface.addText(0,90,text)
 end
 
 function drawItem(x, y, id, dmg, usr)
