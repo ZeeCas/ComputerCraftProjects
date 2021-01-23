@@ -4,6 +4,7 @@ sensor = peripheral.wrap("top")
 
 getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
+maxLines = 7
 
 authedUsers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
@@ -18,12 +19,17 @@ chatColors["SoundsOfMadness"] = 0x883388
 sensorX = 4877
 sensorY = 13  
 sensorZ = 3574
+
+for i = 1, maxLines do
+    table.insert(messages, "$$$$")
+end
 -- End Main Declarations -- 
 
 -- Main Functions --
 
 function Main(user)
     local surface = glass.getUserSurface(user)
+    glass.clear()
     height = (maxLines * 10)
     glass.addBox(0, 20, 335, height, 0x000000, 0.5)
     for i = 1, #messages do
@@ -251,7 +257,7 @@ local peripherals = {
 -- Begin Runtime -- 
  
 while true do
-    for _,user in glass.currentUsers() do
+    for _,user in pairs(glass.getUsers()) do
         Main(user)
         listener()
     end
