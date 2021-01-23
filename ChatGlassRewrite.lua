@@ -43,10 +43,11 @@ function Main(user)
     track(user)
 end
 
-function parseCMD(cmd,usr)
+function parseCMD(cmd,user)
+    local surface = glass.getUserSurface(user)
     local cmd_lower = cmd[1]:lower()
     if cmd_lower == "chatcolor" then
-        chatColors[usr] = loadstring("return " .. cmd[2])()
+        chatColors[user] = loadstring("return " .. cmd[2])()
         glassCMDOutput(user,"Chat color is now "..cmd[2])
         sleep(2)
         surface.clear()
