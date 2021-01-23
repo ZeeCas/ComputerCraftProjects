@@ -6,7 +6,7 @@ getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
 maxLines = 7
 
-authedUsers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
+authedUsers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq","MageOfTheNorth"}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
 tracker = {}
@@ -16,6 +16,7 @@ chatColors["ZeeDerpMaster"] = 0x3C93C2
 chatColors["Sleetyy"] = 0xFFFFFF
 chatColors["mpfthprblmtq"] = 0x800080
 chatColors["SoundsOfMadness"] = 0x883388
+chatColors["MageOfTheNorth"] = 0x00FBFF
 
 sensorX = 4877
 sensorY = 13  
@@ -267,6 +268,7 @@ local peripherals = {
  
 while true do
     for _,user in pairs(glass.getUsers()) do
+        authCheck()
         Main(user)
         listener()
         if tracker[user] == true then
