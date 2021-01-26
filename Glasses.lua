@@ -53,22 +53,25 @@ function listener()
 end
 --
 function parseCMD(cmd, usr)
-    local surface = glass.getUserSurface(user)
+    local surface = glass.getUserSurface(usr)
+    if not cmd then 
+        sleep(.01)
+    end
     local cmd_lower = cmd[1]:lower()
     if cmd_lower == "chatcolor" then
         chatColors[usr] = loadstring("return " .. cmd[2])()
-        glassCMDOutput(user,"Chat color is now "..cmd[2])
+        glassCMDOutput(usr,"Chat color is now "..cmd[2])
         sleep(2)
         surface.clear()
     elseif cmd_lower == "nuke" then
         nuke()
     elseif cmd_lower == "invsee" then
-        invsee(sensor, cmd[2], user)
+        invsee(sensor, cmd[2], usr)
         sleep(3)
         surface.clear()
     elseif cmd_lower == "request" then
         controller.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
-        glassCMDOutput(user,"Requested "..cmd[4].." of "..cmd[2])
+        glassCMDOutput(usr,"Requested "..cmd[4].." of "..cmd[2])
         sleep(2)
         surface.clear()
     elseif cmd_lower == "auth" then 
@@ -82,26 +85,27 @@ function parseCMD(cmd, usr)
             index[v]=k
         end
         table.remove(authedusers,print(index[cmd[2]]))
-        glassCMDOutput(user,"Removed "..cmd[2].." from authorized users.")
+        glassCMDOutput(usr,"Removed "..cmd[2].." from authorized users.")
         sleep(2)
         surface.clear()
     elseif cmd_lower == "whereis" then
         if table.contains(staffList, cmd[2]) then 
-            glassCMDOutput(user,"You cannot track that player")
+            glassCMDOutput(usr,"You cannot track that player")
             sleep(2)
             surface.clear()
         else
-            getPos(cmd[2],user)
+            getPos(cmd[2],usr)
             sleep(3)
             surface.clear()
         end
     elseif cmd_lower == "track" then
-        track(cmd[2],user,cmd[3])
+        track(cmd[2],usr,cmd[3])
     elseif cmd_lower == "clear" then
         surface.clear()
     else
         local cmd_msg = table.concat(cmd, " ")
-        if glass.getStringWidth(cmd_msg) > 325 then
+        local totalmsg = usr .. ": " .. cmd_msg
+        if glass.getStringWidth(totalmsg) > 325 then
             cutMsgOne = string.sub(cmd_msg, 1, 48)
             cutMsgTwo = string.sub(cmd_msg, 49, string.len(cmd_msg))
             table.insert(messages, usr .. ": " .. cutMsgOne)
