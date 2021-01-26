@@ -102,6 +102,7 @@ function parseCMD(cmd,user)
         surface.clear()
     else
         local cmd_msg = table.concat(cmd, " ")
+        local total_msg = user .. ": " .. cmd_msg
         if glass.getStringWidth(cmd_msg) > 325 then
             cutMsgOne = string.sub(cmd_msg, 1, 48)
             cutMsgTwo = string.sub(cmd_msg, 49, string.len(cmd_msg))
