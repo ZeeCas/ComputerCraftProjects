@@ -119,10 +119,9 @@ function parseCMD(cmd,user)
 end
 
 function eventRun()
-    for _,user in pairs(glass.getUsers()) do
         refreshTimer = os.startTimer(1.0)
-        Main(user)
         while not stop do
+            for _,user in pairs(glass.getUsers()) do
             local tEvent = {os.pullEventRaw()}
             if tEvent[1] == "timer" then
                 refreshTimer = os.startTimer(1.0)
