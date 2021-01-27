@@ -127,17 +127,22 @@ end
 -- end
 
 function eventRun()
-    refreshTimer = os.startTimer(2.0)
-    Main()
-    while true do
-        local tEvent = {os.pullEventRaw()}
-        if tEvent[1] == "timer" then
-            refreshTimer = os.startTimer(2.0)
-            Main()
-        elseif tEvent[1] == "chat_command" then
-            cmd = split(tEvent[2])
-            user = tostring(tEvent[3])
-            parseCMD(cmd, user)
+    for _,user in pairs(glass.getUsers()) do
+        refreshTimer = os.startTimer(2.0)
+        Main(user)
+        while true do
+            local tEvent = {os.pullEventRaw()}
+            if tEvent[1] == "timer" then
+                refreshTimer = os.startTimer(2.0)
+                Main(user)
+            elseif tEvent[1] == "chat_command" then
+                local cmd = split(tEvent[2])
+                local usr = tostring(tEvent[3])
+                parseCMD(cmd, usr)
+            end
+            if tracker[user] then
+                track(user)
+            end
         end
     end
 end
