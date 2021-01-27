@@ -5,6 +5,7 @@ sensor = peripheral.wrap("top")
 getfenv(("").gsub).glass_chat = {}
 messages = getfenv(("").gsub).glass_chat
 maxLines = 7
+stop = false
 
 authedUsers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq","MageOfTheNorth"}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
@@ -128,17 +129,24 @@ end
 
 function eventRun()
     for _,user in pairs(glass.getUsers()) do
-        refreshTimer = os.startTimer(2.0)
+        refreshTimer = os.startTimer(1.0)
         Main(user)
-        while true do
+        while stop do
             local tEvent = {os.pullEventRaw()}
             if tEvent[1] == "timer" then
-                refreshTimer = os.startTimer(2.0)
+                refreshTimer = os.startTimer(1.0)
                 Main(user)
             elseif tEvent[1] == "chat_command" then
                 local cmd = split(tEvent[2])
                 local usr = tostring(tEvent[3])
                 parseCMD(cmd, usr)
+
+                refreshTimer = os.startTimer(1.0)
+                Main(user)
+            elseif tEvent == "key" then
+                if tEvent[2] == keys.q then
+                    stop = true
+                end
             end
             if tracker[user] then
                 track(user)
