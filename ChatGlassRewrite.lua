@@ -63,13 +63,13 @@ function parseCMD(cmd,user)
         sleep(2)
         surface.clear()
     elseif cmd_lower == "auth" then 
-        table.insert(authedusers,cmd[2])
+        table.insert(authedUsers,cmd[2])
         glassCMDOutput(user,"Added "..cmd[2].." to authorized users.")
         sleep(2)
         surface.clear()
     elseif cmd_lower == "deauth" then
         local index={}
-        for k,v in pairs(authedusers) do
+        for k,v in pairs(authedUsers) do
             index[v]=k
         end
         table.remove(authedusers,print(index[cmd[2]]))
@@ -117,14 +117,34 @@ function parseCMD(cmd,user)
     end
 end
 
-function listener()
-    local tEvent = {os.pullEventRaw()}
-    if tEvent[1] == "chat_command" then
-        cmd = split(tEvent[2])
-        user = tostring(tEvent[3])
-        parseCMD(cmd, user)
+-- function listener()
+--     local tEvent = {os.pullEventRaw()}
+--     if tEvent[1] == "chat_command" then
+--         cmd = split(tEvent[2])
+--         user = tostring(tEvent[3])
+--         parseCMD(cmd, user)
+--     end
+-- end
+
+function eventRun()
+    refreshTimer = os.startTimer(2.0)
+    Main()
+    while true do
+        local tEvent = {os.pullEventRaw()}
+        if tEvent[1] == "timer" then
+            refreshTimer = os.startTimer(2.0)
+            Main()
+        elseif tEvent[1] == "chat_command" then
+            cmd = split(tEvent[2])
+            user = tostring(tEvent[3])
+            parseCMD(cmd, user)
+        end
     end
 end
+
+-- End Main Functions -- 
+
+-- Helper Functions --
 
 function track(user)
     local surface = glass.getUserSurface(user)
@@ -137,9 +157,7 @@ function track(user)
         surface.addText(0,pos,player.." is at "..posX..","..posY..","..posZ)
     end
 end
--- End Main Functions -- 
 
--- Helper Functions -- 
 function table.contains(tab, ele)
     for i = 1, #tab do
         if tab[i] == ele then
@@ -269,14 +287,4 @@ local peripherals = {
 
 -- Begin Runtime -- 
  
-while true do
-    for _,user in pairs(glass.getUsers()) do
-        authCheck()
-        Main(user)
-        listener()
-        if tracker[user] == true then
-            track(user)
-        end
-    end
-    sleep(.1)
-end
+eventRun()
