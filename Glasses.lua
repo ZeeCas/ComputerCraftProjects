@@ -1,7 +1,4 @@
--- -- TODO:
--- 1.Clean-up -- Meh
--- 2.Turt Control
--- 3.Ender requester. -- Done 
+-- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED--
 glass = peripheral.wrap("right")
 sensor = peripheral.wrap("top")
 controller = peripheral.wrap("left")
