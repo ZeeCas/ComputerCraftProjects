@@ -118,20 +118,11 @@ function parseCMD(cmd,user)
     end
 end
 
--- function listener()
---     local tEvent = {os.pullEventRaw()}
---     if tEvent[1] == "chat_command" then
---         cmd = split(tEvent[2])
---         user = tostring(tEvent[3])
---         parseCMD(cmd, user)
---     end
--- end
-
 function eventRun()
     for _,user in pairs(glass.getUsers()) do
         refreshTimer = os.startTimer(1.0)
         Main(user)
-        while stop do
+        while not stop do
             local tEvent = {os.pullEventRaw()}
             if tEvent[1] == "timer" then
                 refreshTimer = os.startTimer(1.0)
@@ -143,7 +134,7 @@ function eventRun()
 
                 refreshTimer = os.startTimer(1.0)
                 Main(user)
-            elseif tEvent == "key" then
+            elseif tEvent[1] == "key" then
                 if tEvent[2] == keys.q then
                     stop = true
                 end
@@ -163,6 +154,9 @@ function track(user)
     local surface = glass.getUserSurface(user)
     surface.clear()
     for i,player in pairs(trackedPlayers) do 
+        if not pos then 
+            print('')
+        end
         pos = 100 + (i * 10)
         local posX = math.floor(sensor.getPlayerData(player).position.x + sensorX)
         local posY = math.floor(sensor.getPlayerData(player).position.y + sensorY)
