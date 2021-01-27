@@ -136,7 +136,7 @@ function track(player,usr,pos)
     local posX = math.floor(sensor.getPlayerData(player).position.x + xOff)
     local posY = math.floor(sensor.getPlayerData(player).position.y + yOff)
     local posZ = math.floor(sensor.getPlayerData(player).position.z + zOff)
-    local pos = 100 + pos  
+    local pos = 80 + pos  
     local surface = glass.getUserSurface(usr)
     surface.addText(0,pos,player.." is at "..posX..","..posY..","..posZ)
 end
