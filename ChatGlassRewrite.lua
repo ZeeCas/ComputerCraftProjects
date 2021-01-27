@@ -119,9 +119,8 @@ function parseCMD(cmd,user)
 end
 
 function eventRun()
-        refreshTimer = os.startTimer(1.0)
-        while not stop do
-            for _,user in pairs(glass.getUsers()) do
+    while not stop do
+        for _,user in pairs(glass.getUsers()) do
             local tEvent = {os.pullEventRaw()}
             if tEvent[1] == "timer" then
                 refreshTimer = os.startTimer(1.0)
@@ -130,7 +129,6 @@ function eventRun()
                 local cmd = split(tEvent[2])
                 local usr = tostring(tEvent[3])
                 parseCMD(cmd, usr)
-
                 refreshTimer = os.startTimer(1.0)
                 Main(user)
             elseif tEvent[1] == "key" then
