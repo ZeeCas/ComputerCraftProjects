@@ -117,6 +117,9 @@ function parseCMD(cmd, usr)
 end
 --
 function getPos(player,usr)
+    if not player then
+        sleep(.01)
+    end
     local xOff = 4877
     local yOff = 13
     local zOff = 3574
@@ -127,6 +130,9 @@ function getPos(player,usr)
 end
 --
 function track(player,usr,pos)
+    if not player then
+        sleep(.01)
+    end
     local xOff = 4877
     local yOff = 13
     local zOff = 3574
