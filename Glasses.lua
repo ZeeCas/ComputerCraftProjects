@@ -1,4 +1,3 @@
--- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED---- DEPRACATED--
 glass = peripheral.wrap("right")
 sensor = peripheral.wrap("top")
 controller = peripheral.wrap("left")
@@ -20,7 +19,7 @@ for i = 1, maxLines do
     table.insert(messages, "$$$$")
 end
 --
-function startNewNew()
+function initialize()
     while true do
         authCheck()
         glass.clear()
@@ -240,6 +239,7 @@ end
 function nuke()
     glass.clear()
     getfenv(("").gsub).glass_chat = {}
+    messages = {}
     glass.clear()
     shell.run("reboot")
     glass.clear()
