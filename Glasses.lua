@@ -2,8 +2,7 @@ glass = peripheral.wrap("right")
 sensor = peripheral.wrap("top")
 controller = peripheral.wrap("left")
 maxLines = 7
-getfenv(("").gsub).glass_chat = {}
-messages = getfenv(("").gsub).glass_chat
+messages = {}
 authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
@@ -238,7 +237,6 @@ end
 --
 function nuke()
     glass.clear()
-    getfenv(("").gsub).glass_chat = {}
     messages = {}
     glass.clear()
     shell.run("reboot")
@@ -255,5 +253,5 @@ function drawItem(x, y, id, dmg, usr)
     surface.addIcon(x * margin, y * margin, id, dmg)
 end
 --
-parallel.waitForAny(listener, startNewNew)
+parallel.waitForAny(listener, initialize)
 --
