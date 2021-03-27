@@ -102,7 +102,7 @@ function parseCMD(cmd, usr)
         end
     elseif cmd_lower == "track" then
         table.insert(trackedPlayers,cmd[2])
-        table.insert(trackOn,usr)
+        table.insert(trackOnTab,usr)
         -- track(cmd[2],usr,cmd[3])
     elseif cmd_lower == "clear" then
         surface.clear()
@@ -147,12 +147,12 @@ function track(player,usr,pos)
 end
 
 function trackOn()
-    for i,v in pairs(trackOn) do
-        local surface = glass.getUserSurface(trackOn[i])
+    for i,v in pairs(trackOnTab) do
+        local surface = glass.getUserSurface(trackOnTab[i])
         for i,v in pairs(trackedPlayers) do
             surface.clear()
             pos = 80
-            track(v,trackOn[i],pos)
+            track(v,trackOnTab[i],pos)
             pos = pog + 10
         end
     end
