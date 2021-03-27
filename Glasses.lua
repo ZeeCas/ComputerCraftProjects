@@ -3,7 +3,7 @@ sensor = peripheral.wrap("top")
 controller = peripheral.wrap("left")
 maxLines = 7
 messages = {}
-authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "soundsofmadness", "mpfthprblmtq",""}
+authedusers = {"ZeeDerpMaster", "Sleetyy","Rapoosa"}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
 
@@ -14,6 +14,7 @@ chatColors["ZeeDerpMaster"] = 0x3C93C2
 chatColors["Sleetyy"] = 0xFFFFFF
 chatColors["mpfthprblmtq"] = 0x800080
 chatColors["SoundsOfMadness"] = 0x883388
+chatColors["Rapoosa"] = 0xE55934
 
 
 --
@@ -21,6 +22,7 @@ for i = 1, maxLines do
     table.insert(messages, "$$$$")
 end
 --
+
 function initialize()
     while true do
         authCheck()
@@ -137,17 +139,16 @@ function track(player,usr,pos)
     if not player then
         sleep(.01)
     end
-    local xOff = 4877
-    local yOff = 13
-    local zOff = 3574
+    local sen_pos = {x=4872,y=118,z=3678}
     local pos = 80 + pos  
     local surface = glass.getUserSurface(usr)
-    surface.addText(0,pos,player..': x '..math.ceil(data.position.x+sen_pos.x)..' y '..math.ceil(data.position.y+sen_pos.y)..' z '..math.ceil(data.position.z+sen_pos.z),0xFF1100)
+    surface.addText(0,pos,player..': x '..math.ceil(sensor.getPlayerData(player).position.x+sen_pos.x)..' y '..math.ceil(sensor.getPlayerData(player).position.y+sen_pos.y)..' z '..math.ceil(sensor.getPlayerData(player).position.z+sen_pos.z),0xFF1100)
 end
 
 function trackOn()
-    for i,v in pairs(authedusers) do 
+    for i,v in pairs(authedusers) dO
         if authedusers[i] == "True" then
+            local surface = glass.getUserSurface(authedusers[i])
             for i,v in pairs(trackedPlayers) do
                 pos = 80
                 track(v,authedusers[i],pos)
