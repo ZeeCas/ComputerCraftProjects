@@ -106,6 +106,10 @@ function parseCMD(cmd, usr)
         table.insert(trackOnTab,usr)
     elseif cmd_lower == "clear" then
         surface.clear()
+    elseif cmd_lower == "help" then 
+        glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, trackon, trackoff, track, and clear")
+        sleep(3)
+        surface.clear()
     else
         local cmd_msg = table.concat(cmd, " ")
         local totalmsg = usr .. ": " .. cmd_msg
@@ -160,8 +164,8 @@ end
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
-    surface.addBox(336,80,glass.getStringWidth(text),10, 0x000000, 0.5)
-    surface.addText(336,80,text)
+    surface.addBox(0,90,glass.getStringWidth(text),10, 0x000000, 0.5)
+    surface.addText(0,90,text)
 end
 --
 function onlineList()
