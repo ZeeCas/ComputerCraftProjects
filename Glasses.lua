@@ -7,6 +7,7 @@ authedusers = {"ZeeDerpMaster", "Sleetyy","Rapoosa"}
 trackOnTab = {}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
+sen_pos = {x=4872,y=118,z=3678}
 
 
 
@@ -103,7 +104,6 @@ function parseCMD(cmd, usr)
     elseif cmd_lower == "track" then
         table.insert(trackedPlayers,cmd[2])
         table.insert(trackOnTab,usr)
-        -- track(cmd[2],usr,cmd[3])
     elseif cmd_lower == "clear" then
         surface.clear()
     else
@@ -140,7 +140,6 @@ function track(player,usr,pos)
     if not player then
         sleep(.01)
     end
-    local sen_pos = {x=4872,y=118,z=3678}
     local pos = 80 + pos  
     local surface = glass.getUserSurface(usr)
     surface.addText(0,pos,player..': x '..math.ceil(sensor.getPlayerData(player).position.x+sen_pos.x)..' y '..math.ceil(sensor.getPlayerData(player).position.y+sen_pos.y)..' z '..math.ceil(sensor.getPlayerData(player).position.z+sen_pos.z),0xFF1100)
@@ -153,7 +152,7 @@ function trackOn()
             surface.clear()
             pos = 80
             track(v,trackOnTab[i],pos)
-            pos = pog + 10
+            pos = pos + 10
         end
     end
 end
