@@ -107,7 +107,7 @@ function parseCMD(cmd, usr)
     elseif cmd_lower == "clear" then
         surface.clear()
     elseif cmd_lower == "help" then 
-        glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, trackon, trackoff, track, and clear")
+        glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, track, and clear")
         sleep(3)
         surface.clear()
     else
@@ -131,13 +131,8 @@ function getPos(player,usr)
     if not player then
         sleep(.01)
     end
-    local xOff = 4877
-    local yOff = 13
-    local zOff = 3574
-    local posX = math.floor(sensor.getPlayerData(player).position.x + xOff)
-    local posY = math.floor(sensor.getPlayerData(player).position.y + yOff)
-    local posZ = math.floor(sensor.getPlayerData(player).position.z + zOff)
-    glassCMDOutput(usr,player.." is at "..posX.." "..posY.." "..posZ)
+    glassCMDOutput(usr,player..': x '..math.ceil(sensor.getPlayerData(player).position.x+sen_pos.x)..' y '..math.ceil(sensor.getPlayerData(player).position.y+sen_pos.y)..' z '..math.ceil(sensor.getPlayerData(player).position.z+sen_pos.z),0xFF1100)
+
 end
 --
 function track(player,usr,pos)
