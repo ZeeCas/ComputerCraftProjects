@@ -148,7 +148,7 @@ end
 function trackOn()
     for i,v in pairs(authedusers) do
         if authedusers[i] == "track" then
-            local surface = glass.getUserSurface(authedusers[i])
+            local surface = glass.getUserSurface(authedusers[indexOf[authedusers[i]]])
             for i,v in pairs(trackedPlayers) do
                 pos = 80
                 track(v,authedusers[i],pos)
@@ -268,6 +268,14 @@ function drawItem(x, y, id, dmg, usr)
     surface.addBox((x * margin) - 1, (y * margin) - 1, margin, margin, bg, 1)
     surface.addBox((x * margin) - 1, (y * margin) - 1, margin - 2, margin - 2, bg, 1)
     surface.addIcon(x * margin, y * margin, id, dmg)
+end
+--
+function indexOf(item,table)
+    local index={}
+    for k,v in pairs(table) do
+       index[v]=k
+    end
+    return index[item]
 end
 --
 parallel.waitForAny(listener, initialize)
