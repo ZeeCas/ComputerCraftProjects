@@ -101,7 +101,7 @@ function parseCMD(cmd, usr)
         end
     elseif cmd_lower == "track" then
         table.insert(trackedPlayers,cmd[2])
-        authedusers[usr] = "True"
+        authedusers[usr] = "track"
         -- track(cmd[2],usr,cmd[3])
     elseif cmd_lower == "clear" then
         surface.clear()
@@ -146,8 +146,8 @@ function track(player,usr,pos)
 end
 
 function trackOn()
-    for i,v in pairs(authedusers) dO
-        if authedusers[i] == "True" then
+    for i,v in pairs(authedusers) do
+        if authedusers[i] == "track" then
             local surface = glass.getUserSurface(authedusers[i])
             for i,v in pairs(trackedPlayers) do
                 pos = 80
