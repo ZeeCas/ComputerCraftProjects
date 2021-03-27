@@ -4,6 +4,7 @@ controller = peripheral.wrap("left")
 maxLines = 7
 messages = {}
 authedusers = {"ZeeDerpMaster", "Sleetyy","Rapoosa"}
+trackOn = {}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
 
@@ -101,7 +102,7 @@ function parseCMD(cmd, usr)
         end
     elseif cmd_lower == "track" then
         table.insert(trackedPlayers,cmd[2])
-        authedusers[usr] = "track"
+        table.insert(trackOn,usr)
         -- track(cmd[2],usr,cmd[3])
     elseif cmd_lower == "clear" then
         surface.clear()
@@ -146,14 +147,12 @@ function track(player,usr,pos)
 end
 
 function trackOn()
-    for i,v in pairs(authedusers) do
-        if authedusers[i] == "track" then
-            local surface = glass.getUserSurface(authedusers[indexOf[authedusers[i]]])
-            for i,v in pairs(trackedPlayers) do
-                pos = 80
-                track(v,authedusers[i],pos)
-                pos = 80 + 10
-            end
+    for i,v in pairs(trackOn) do
+        local surface = glass.getUserSurface(trackOn[i])
+        for i,v in pairs(trackedPlayers) do
+            pos = 80
+            track(v,authedusers[i],pos)
+            pos = 80 + 10
         end
     end
 end
