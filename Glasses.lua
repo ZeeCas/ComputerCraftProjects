@@ -4,7 +4,7 @@ controller = peripheral.wrap("left")
 maxLines = 7
 messages = {}
 authedusers = {"ZeeDerpMaster", "Sleetyy","Rapoosa"}
-trackOn = {}
+trackOnTab = {}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
 
@@ -150,9 +150,10 @@ function trackOn()
     for i,v in pairs(trackOn) do
         local surface = glass.getUserSurface(trackOn[i])
         for i,v in pairs(trackedPlayers) do
+            surface.clear()
             pos = 80
-            track(v,authedusers[i],pos)
-            pos = 80 + 10
+            track(v,trackOn[i],pos)
+            pos = pog + 10
         end
     end
 end
