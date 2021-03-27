@@ -7,11 +7,14 @@ authedusers = {"ZeeDerpMaster", "Sleetyy", "icedfrappuccino", "korvuus", "sounds
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
 
+
+
 chatColors = {}
 chatColors["ZeeDerpMaster"] = 0x3C93C2
 chatColors["Sleetyy"] = 0xFFFFFF
 chatColors["mpfthprblmtq"] = 0x800080
 chatColors["SoundsOfMadness"] = 0x883388
+
 
 --
 for i = 1, maxLines do
@@ -21,6 +24,7 @@ end
 function initialize()
     while true do
         authCheck()
+        trackOn()
         glass.clear()
         height = (maxLines * 10)
         glass.addBox(0, 20, 335, height, 0x000000, 0.5)
@@ -94,7 +98,9 @@ function parseCMD(cmd, usr)
             surface.clear()
         end
     elseif cmd_lower == "track" then
-        track(cmd[2],usr,cmd[3])
+        table.insert(trackedPlayers,cmd[2])
+        authedusers[usr] = "True"
+        -- track(cmd[2],usr,cmd[3])
     elseif cmd_lower == "clear" then
         surface.clear()
     else
@@ -134,13 +140,23 @@ function track(player,usr,pos)
     local xOff = 4877
     local yOff = 13
     local zOff = 3574
-    local posX = math.floor(sensor.getPlayerData(player).position.x + xOff)
-    local posY = math.floor(sensor.getPlayerData(player).position.y + yOff)
-    local posZ = math.floor(sensor.getPlayerData(player).position.z + zOff)
     local pos = 80 + pos  
     local surface = glass.getUserSurface(usr)
-    surface.addText(0,pos,player.." is at "..posX..","..posY..","..posZ)
+    surface.addText(0,pos,player..': x '..math.ceil(data.position.x+sen_pos.x)..' y '..math.ceil(data.position.y+sen_pos.y)..' z '..math.ceil(data.position.z+sen_pos.z),0xFF1100)
 end
+
+function trackOn()
+    for i,v in pairs(authedusers) do 
+        if authedusers[i] == "True" then
+            for i,v in pairs(trackedPlayers) do
+                pos = 80
+                track(v,authedusers[i],pos)
+                pos = 80 + 10
+            end
+        end
+    end
+end
+
 --
 function glassCMDOutput(usr,text)
     local surface = glass.getUserSurface(usr)
