@@ -1,3 +1,4 @@
+-- Initializes Main Variables
 glass = peripheral.wrap("right")
 sensor = peripheral.wrap("top")
 controller = peripheral.wrap("left")
@@ -8,24 +9,19 @@ trackOnTab = {}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
 sen_pos = {x=4872,y=118,z=3678}
-
-
-
+-- Creates chat colors.
 chatColors = {}
 chatColors["ZeeDerpMaster"] = 0x3C93C2
 chatColors["Sleetyy"] = 0xFFFFFF
 chatColors["mpfthprblmtq"] = 0x800080
 chatColors["SoundsOfMadness"] = 0x883388
 chatColors["Rapoosa"] = 0xE55934
-
-
---
+-- Initializes message table
 for i = 1, maxLines do
     table.insert(messages, "$$$$")
 end
 --
-
-function initialize()
+function initialize() -- Main running function. displays messages on glasses.
     while true do
         authCheck()
         trackOn()
@@ -42,8 +38,8 @@ function initialize()
         sleep(0.1)
     end
 end
------
-function listener()
+--
+function listener() -- Listens for incoming chat commands
     while true do
         authCheck()
         local tEvent = {os.pullEventRaw()}
@@ -55,34 +51,34 @@ function listener()
     end
 end
 --
-function parseCMD(cmd, usr)
+function parseCMD(cmd, usr) -- Parses incoming chat commands using a terrible nested if
     local surface = glass.getUserSurface(usr)
     if not cmd then 
         sleep(.01)
     end
     local cmd_lower = cmd[1]:lower()
-    if cmd_lower == "chatcolor" then
+    if cmd_lower == "chatcolor" then -- Changes chat color for the user
         chatColors[usr] = loadstring("return " .. cmd[2])()
         glassCMDOutput(usr,"Chat color is now "..cmd[2])
         sleep(2)
         surface.clear()
-    elseif cmd_lower == "nuke" then
+    elseif cmd_lower == "nuke" then -- Clears chat and reboots PC
         nuke()
-    elseif cmd_lower == "invsee" then
+    elseif cmd_lower == "invsee" then -- Shows selected player's inventory for 3 seconds
         invsee(sensor, cmd[2], usr)
         sleep(3)
         surface.clear()
-    elseif cmd_lower == "request" then
+    elseif cmd_lower == "request" then -- Requests an item from an ae system to an inventory
         controller.extractItem({id=tonumber(cmd[2]),dmg=tonumber(cmd[3]),qty=tonumber(cmd[4])}, "south")
         glassCMDOutput(usr,"Requested "..cmd[4].." of "..cmd[2])
         sleep(2)
         surface.clear()
-    elseif cmd_lower == "auth" then 
+    elseif cmd_lower == "auth" then  -- Adds a user to authorized user list
         table.insert(authedusers,cmd[2])
         glassCMDOutput(user,"Added "..cmd[2].." to authorized users.")
         sleep(2)
         surface.clear()
-    elseif cmd_lower == "deauth" then
+    elseif cmd_lower == "deauth" then -- Removes a user from the authorized user list
         local index={}
         for k,v in pairs(authedusers) do
             index[v]=k
@@ -91,7 +87,7 @@ function parseCMD(cmd, usr)
         glassCMDOutput(usr,"Removed "..cmd[2].." from authorized users.")
         sleep(2)
         surface.clear()
-    elseif cmd_lower == "whereis" then
+    elseif cmd_lower == "whereis" then -- Shows coordinates of selected player for 2 seconds
         if table.contains(staffList, cmd[2]) then 
             glassCMDOutput(usr,"You cannot track that player")
             sleep(2)
@@ -101,12 +97,12 @@ function parseCMD(cmd, usr)
             sleep(3)
             surface.clear()
         end
-    elseif cmd_lower == "track" then
+    elseif cmd_lower == "track" then -- Adds selected player to an updating coordinates output
         table.insert(trackedPlayers,cmd[2])
         table.insert(trackOnTab,usr)
-    elseif cmd_lower == "clear" then
+    elseif cmd_lower == "clear" then -- Clears user surface
         surface.clear()
-    elseif cmd_lower == "help" then 
+    elseif cmd_lower == "help" then -- Displays possible commands
         glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, track, and clear")
         sleep(3)
         surface.clear()
@@ -127,7 +123,7 @@ function parseCMD(cmd, usr)
     end
 end
 --
-function getPos(player,usr)
+function getPos(player,usr) -- Displays position of given player to a user
     if not player then
         sleep(.01)
     end
@@ -135,7 +131,7 @@ function getPos(player,usr)
 
 end
 --
-function track(player,usr,pos)
+function track(player,usr,pos) -- Handles the placement and updating of users in the tracked list
     if not player then
         sleep(.01)
     end
@@ -144,7 +140,7 @@ function track(player,usr,pos)
     surface.addText(0,pos,player..': x '..math.ceil(sensor.getPlayerData(player).position.x+sen_pos.x)..' y '..math.ceil(sensor.getPlayerData(player).position.y+sen_pos.y)..' z '..math.ceil(sensor.getPlayerData(player).position.z+sen_pos.z),0xFF1100)
 end
 
-function trackOn()
+function trackOn() -- Shows tracked players to users who enable it
     for i,v in pairs(trackOnTab) do
         local surface = glass.getUserSurface(trackOnTab[i])
         for i,v in pairs(trackedPlayers) do
@@ -157,17 +153,17 @@ function trackOn()
 end
 
 --
-function glassCMDOutput(usr,text)
+function glassCMDOutput(usr,text)  -- Displays given text to a user surface
     local surface = glass.getUserSurface(usr)
     surface.addBox(0,90,glass.getStringWidth(text),10, 0x000000, 0.5)
     surface.addText(0,90,text)
 end
 --
-function onlineList()
+function onlineList() -- Displays the players currently wearing ChatGlass
     if #glass.getUsers() > 0 then
         local usrNum = #glass.getUsers()
         local usrNam = glass.getUsers()
-        glass.addBox(336, 20, 91, 60, 0x000000, 0.5)
+        glass.addBox(336, 20, 91, 70, 0x000000, 0.5)
         for i = 1, usrNum do
             h = 10 + (i * 10)
             glass.addText(337, h, usrNam[i], chatColors[getName(usrNam[i])])
@@ -175,7 +171,7 @@ function onlineList()
     end
 end
 --
-function authCheck()
+function authCheck() -- Ensures all players wearing ChatGlass are contained within authedusers
     currentUsers = glass.getUsers()
     for i = 1, #currentUsers do
         if table.contains(authedusers, currentUsers[i]) == false then
@@ -189,7 +185,7 @@ function authCheck()
     end
 end
 --
-function invsee(sen, player, usr)
+function invsee(sen, player, usr) -- Handles the displaying of items from a given players inventory to a user
     local inventory = sen.getPlayerData(player).inventory
     if not inventory then
         error("Player does not exist/is not online")
@@ -220,7 +216,7 @@ function invsee(sen, player, usr)
     sleep(2)
 end
 --
-function table.contains(tab, ele)
+function table.contains(tab, ele) -- Checks if an element : ele , is in a table : tab
     for i = 1, #tab do
         if tab[i] == ele then
             return true
@@ -229,7 +225,7 @@ function table.contains(tab, ele)
     return false
 end
 --
-function split(str)
+function split(str) -- Splits a string on spaces
     local words = {}
     for word in str:gmatch("%S+") do
         words[#words + 1] = word
@@ -237,7 +233,7 @@ function split(str)
     return words
 end
 --
-function getName(message)
+function getName(message) -- Returns the name from a string containing a username followed me a colon and a message
     local name = nil
     while true do
         if string.find(message, ":") then
@@ -250,7 +246,7 @@ function getName(message)
     return name
 end
 --
-function nuke()
+function nuke() -- Clears all glasses, clears messages table, and reboots.
     glass.clear()
     messages = {}
     glass.clear()
@@ -258,7 +254,7 @@ function nuke()
     glass.clear()
 end
 --
-function drawItem(x, y, id, dmg, usr)
+function drawItem(x, y, id, dmg, usr) -- Draws a given item on the players surface.
     local surface = glass.getUserSurface(usr)
     local margin = 20
     local bg = 0x404040
@@ -268,7 +264,7 @@ function drawItem(x, y, id, dmg, usr)
     surface.addIcon(x * margin, y * margin, id, dmg)
 end
 --
-function indexOf(item,table)
+function indexOf(item,table) -- Returns the idex of item in a table
     local index={}
     for k,v in pairs(table) do
        index[v]=k
@@ -276,5 +272,5 @@ function indexOf(item,table)
     return index[item]
 end
 --
-parallel.waitForAny(listener, initialize)
+parallel.waitForAny(listener, initialize) -- Fake multithreading
 --
