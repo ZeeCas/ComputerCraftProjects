@@ -1,3 +1,4 @@
+-- Mounting Function
 mount = function (peripheral_type) -- Wraps a peripheral
     for _,location in pairs(peripheral.getNames()) do
         if peripheral.getType(location) == peripheral_type then 
@@ -18,6 +19,7 @@ authedusers = {"ZeeDerpMaster", "Sleetyy","Rapoosa","DragonSlayer"}
 trackOnTab = {}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
+lamps = {}
 sen_pos = {x=4872,y=118,z=3678}
 -- Creates chat colors.
 chatColors = {}
@@ -29,6 +31,10 @@ chatColors["Rapoosa"] = 0xE55934
 -- Initializes message table
 for i = 1, maxLines do
     table.insert(messages, "$$$$")
+end
+--
+for _,v in pairs(lamp.getNamesRemote()) do
+    table.insert(lamps,v)
 end
 --
 function initialize() -- Main running function. displays messages on glasses.
@@ -113,8 +119,11 @@ function parseCMD(cmd, usr) -- Parses incoming chat commands using a terrible ne
     elseif cmd_lower == "clear" then -- Clears user surface
         surface.clear()
     elseif cmd_lower == "lamp" then
-        for _,v in pairs(lamp.getNamesRemote()) do
+        for _,v in pairs(lamps) do
+            sleep(0.05)
+            print(v)
             lamp.callRemote(v,"setColor",tonumber(cmd[2]))
+            sleep(.05)
         end
     elseif cmd_lower == "help" then -- Displays possible commands
         glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, lamp, track, and clear")
