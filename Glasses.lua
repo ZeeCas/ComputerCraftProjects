@@ -1,10 +1,11 @@
 -- Initializes Main Variables
-glass = peripheral.wrap("right")
-sensor = peripheral.wrap("top")
-controller = peripheral.wrap("left")
+glass = mount("openperipheral_glassesbridge")
+sensor = mount("sensor")
+controller = mount("appeng_me_tilecontroller")
+lamp = mount("modem")
 maxLines = 7
 messages = {}
-authedusers = {"ZeeDerpMaster", "Sleetyy","Rapoosa"}
+authedusers = {"ZeeDerpMaster", "Sleetyy","Rapoosa","DragonSlayer"}
 trackOnTab = {}
 staffList = {"DragonSlayer","eytixis","iim_wolf","oozoozami"}
 trackedPlayers = {}
@@ -102,8 +103,12 @@ function parseCMD(cmd, usr) -- Parses incoming chat commands using a terrible ne
         table.insert(trackOnTab,usr)
     elseif cmd_lower == "clear" then -- Clears user surface
         surface.clear()
+    elseif cmd_lower == "lamp" then
+        for _,v in pairs(lamp.getNamesRemote()) do
+            lamp.callRemote(v,"setColor",tonumber(cmd[2]))
+        end
     elseif cmd_lower == "help" then -- Displays possible commands
-        glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, track, and clear")
+        glassCMDOutput(user,"Commands are : chatcolor, nuke, invsee, request, auth, deauth, whereis, lamp, track, and clear")
         sleep(3)
         surface.clear()
     else
@@ -139,7 +144,7 @@ function track(player,usr,pos) -- Handles the placement and updating of users in
     local surface = glass.getUserSurface(usr)
     surface.addText(0,pos,player..': x '..math.ceil(sensor.getPlayerData(player).position.x+sen_pos.x)..' y '..math.ceil(sensor.getPlayerData(player).position.y+sen_pos.y)..' z '..math.ceil(sensor.getPlayerData(player).position.z+sen_pos.z),0xFF1100)
 end
-
+--
 function trackOn() -- Shows tracked players to users who enable it
     for i,v in pairs(trackOnTab) do
         local surface = glass.getUserSurface(trackOnTab[i])
@@ -151,7 +156,6 @@ function trackOn() -- Shows tracked players to users who enable it
         end
     end
 end
-
 --
 function glassCMDOutput(usr,text)  -- Displays given text to a user surface
     local surface = glass.getUserSurface(usr)
@@ -184,6 +188,16 @@ function authCheck() -- Ensures all players wearing ChatGlass are contained with
         end
     end
 end
+--
+mount = function (peripheral_type) -- Wraps a peripheral
+    for _,location in pairs(peripheral.getNames()) do
+        if peripheral.getType(location) == peripheral_type then 
+            return peripheral.wrap(location) 
+        end
+    end
+    return false
+end
+
 --
 function invsee(sen, player, usr) -- Handles the displaying of items from a given players inventory to a user
     local inventory = sen.getPlayerData(player).inventory
