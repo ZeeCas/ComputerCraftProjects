@@ -1,3 +1,12 @@
+mount = function (peripheral_type) -- Wraps a peripheral
+    for _,location in pairs(peripheral.getNames()) do
+        if peripheral.getType(location) == peripheral_type then 
+            return peripheral.wrap(location) 
+        end
+    end
+    return false
+end
+
 -- Initializes Main Variables
 glass = mount("openperipheral_glassesbridge")
 sensor = mount("sensor")
@@ -189,14 +198,6 @@ function authCheck() -- Ensures all players wearing ChatGlass are contained with
     end
 end
 --
-mount = function (peripheral_type) -- Wraps a peripheral
-    for _,location in pairs(peripheral.getNames()) do
-        if peripheral.getType(location) == peripheral_type then 
-            return peripheral.wrap(location) 
-        end
-    end
-    return false
-end
 
 --
 function invsee(sen, player, usr) -- Handles the displaying of items from a given players inventory to a user
