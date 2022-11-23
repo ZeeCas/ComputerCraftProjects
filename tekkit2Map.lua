@@ -9,9 +9,7 @@ function getPlayers()
     local data = r.readAll()
     data = json.decode(data)['players']
     for i,v in pairs(data) do
-        for k,v in pairs(v) do
-            print(v['name'])
-        end
+        print(v['name'])
     end
 end
 
