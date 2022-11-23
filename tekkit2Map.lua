@@ -51,4 +51,6 @@ function extractLiveMap()
 end
 
 extractLiveMap()
-print(players)
+for i,v in pairs(players) do
+    print(i,v)
+end
